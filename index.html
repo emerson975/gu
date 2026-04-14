@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Noite em Paris</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2b2bca;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #game-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 { color: #2c3e50; }
+        p { color: #34495e; line-height: 1.6; font-size: 1.1em; }
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            background-color: #3498db;
+            color: white;
+        }
+        button:hover { background-color: #d40c0c; }
+        .reset-btn { background-color: #3c56e7; }
+        .reset-btn:hover { background-color: #eeeeee; }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1 id="titulo">Bem-vindo à França!</h1>
+    <p id="historia">Você acaba de desembarcar em Paris. O sol está se pondo atrás da Torre Eiffel. Você tem pouco tempo antes do jantar. Para onde você deseja ir primeiro?</p>
+    
+    <div class="btn-container" id="opcoes">
+        <button onclick="irPara('louvre')">Ir ao Museu do Louvre</button>
+        <button onclick="irPara('montmartre')">Subir Montmartre</button>
+    </div>
+</div>
+
+<script>
+    const fases = {
+        inicio: {
+            titulo: "Bem-vindo à França!",
+            texto: "Você acaba de desembarcar em Paris. O sol está se pondo atrás da Torre Eiffel. Para onde você deseja ir primeiro?",
+            escolhas: [
+                { texto: "Ir ao Museu do Louvre", destino: "louvre" },
+                { texto: "Subir Montmartre", destino: "montmartre" }
+            ]
+        },
+        louvre: {
+            titulo: "O Mistério do Louvre",
+            texto: "Você entra no museu e corre para ver a Monalisa. No entanto, você percebe um corredor secreto entreaberto. Você entra no segredo ou volta para a multidão?",
+            escolhas: [
+                { texto: "Entrar no corredor", destino: "segredo" },
+                { texto: "Voltar para a Monalisa", destino: "final_louvre" }
+            ]
+        },
+        montmartre: {
+            titulo: "As Luzes de Montmartre",
+            texto: "No topo da colina, um artista de rua se oferece para pintar seu retrato, enquanto um cheiro de crepes frescos vem de uma barraca próxima. O que você faz?",
+            escolhas: [
+                { texto: "Aceitar o retrato", destino: "artista" },
+                { texto: "Comprar um crepe", destino: "final_crepe" }
+            ]
+        },
+        segredo: {
+            titulo: "Final: O Guardião!",
+            texto: "Você descobriu uma sala repleta de mapas antigos de Napoleão. Você se torna o novo historiador real! Que aventura!",
+            escolhas: []
+        },
+        final_louvre: {
+            titulo: "Final: Cultura Clássica",
+            texto: "Você admira a arte clássica e termina a noite com uma taça de vinho francês. Uma viagem tranquila e educativa.",
+            escolhas: []
+        },
+        artista: {
+            titulo: "Final: A Obra de Arte",
+            texto: "O artista era famoso! Seu retrato fica incrível e você vira uma celebridade local em Paris.",
+            escolhas: []
+        },
+        final_crepe: {
+            titulo: "Final: Delícia Parisiense",
+            texto: "Nada supera a gastronomia. Você come o melhor crepe de chocolate da sua vida olhando as luzes da cidade.",
+            escolhas: []
+        }
+    };
+
+    function irPara(destino) {
+        const fase = fases[destino];
+        document.getElementById('titulo').innerText = fase.titulo;
+        document.getElementById('historia').innerText = fase.texto;
+        
+        const containerBotoes = document.getElementById('opcoes');
+        containerBotoes.innerHTML = "";
+
+        if (fase.escolhas.length > 0) {
+            fase.escolhas.forEach(opcao => {
+                const btn = document.createElement('button');
+                btn.innerText = opcao.texto;
+                btn.onclick = () => irPara(opcao.destino);
+                containerBotoes.appendChild(btn);
+            });
+        } else {
+            const btnReset = document.createElement('button');
+            btnReset.innerText = "Recomeçar Viagem";
+            btnReset.className = "reset-btn";
+            btnReset.onclick = () => irPara('inicio');
+            containerBotoes.appendChild(btnReset);
+        }
+    }
+</script>
+
+</body>
+</html>
