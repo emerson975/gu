@@ -1,0 +1,2 @@
+# gu
+amooooooooooo meu gostoso
